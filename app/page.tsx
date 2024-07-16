@@ -21,6 +21,7 @@ import EventList from "./_components/EventList";
 
 export default async function Home() {
   const events: any = await prisma.event.findMany({
+    
     include: {
       user: true, // Assuming 'user' is the field name in event referring to the user who created it
     },
