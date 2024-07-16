@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <div className="flex flex-row justify-between items-center px-4 py-1">
       <Link href={"/"}>
-      <Image src={logo} alt="logo" className="w-[300px] h-[65px]" />
+        <Image src={logo} alt="logo" className="w-[300px] h-[65px]" />
       </Link>
       <div>
         <SignedOut>
@@ -30,7 +30,7 @@ const Navbar = () => {
               Explore
             </button>
             <button className="px-5 py-2 border-2 border-primary z-1 bg-secondary text-primary rounded-[80px]">
-              My Dashboard
+              <Link href={"/portal"}>My Dashboard</Link>
             </button>
             <button className="px-5 py-2 border-2 border-primary z-1 bg-secondary text-primary rounded-[80px]">
               <SignOutButton />

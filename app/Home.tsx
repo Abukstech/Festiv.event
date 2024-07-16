@@ -2,15 +2,16 @@
 import React from "react";
 import EventList from "./_components/EventList";
 import CategoryFilter from "./_components/CategoryList";
+import { EventType } from "@/types/events";
 
-const App = () => {
-  const [category, setCategory] = React.useState("All Categories");
+const App = ({ events }: { events: any[] }) => {
+  
 
   return (
-    <div className="w-full max-w-screen">
-      {/* <CategoryFilter category={category} setCategory={setCategory} /> */}
-
-      <EventList />
+    <div className="container md:mx-auto p-4 md:max-w-[90%]  w-full">
+      
+      <EventList events={events} />
+   
     </div>
   );
 };

@@ -19,14 +19,6 @@ model messages {
 
 model user {
   id               Int      @id @default(autoincrement())
-  organizationName String
-  state            String
-  address          String
-  phone            String
-  aboutUs          String
-  fblink           String
-  iglink           String
-  xlink            String
   email            String   @unique
   profilePic       String
   isAdmin          Boolean? @default(false)
@@ -38,11 +30,17 @@ model user {
   xata_id          String   @unique(map: "user__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   xata_version     Int      @default(0)
   xata_createdat   DateTime @default(now()) @db.Timestamptz(6)
+  aboutUs          String
+  address          String
+  organizationName String
+  phone            String
+  state            String
+  socialMediaLinks Json
   createdEvent     event[]
 }
 
 model event {
-  id                Int               @id @default(autoincrement())
+  id                Int        @id @default(autoincrement())
   name              String
   eventDate         DateTime[]
   eventDetails      String
@@ -50,27 +48,19 @@ model event {
   rsvpName          String
   rsvpTel           String
   eventImage        String
-  eventLogo         String
   state             String
   address           String
   ticketImage       String
   ticketPrice       String
   ticketDescription String
   userId            Int?
-  xata_id           String            @unique(map: "event__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
-  xata_version      Int               @default(0)
-  xata_createdat    DateTime          @default(now()) @db.Timestamptz(6)
-  xata_updatedat    DateTime          @default(now()) @db.Timestamptz(6)
-  socialMediaLinks  SocialMediaLink[]
-  user              user?             @relation(fields: [userId], references: [id])
-}
-
-model SocialMediaLink {
-  id       Int    @id @default(autoincrement())
-  platform String
-  url      String
-  eventId  Int
-  event    event  @relation(fields: [eventId], references: [id])
+  xata_id           String     @unique(map: "event__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
+  xata_version      Int        @default(0)
+  xata_createdat    DateTime   @default(now()) @db.Timestamptz(6)
+  xata_updatedat    DateTime   @default(now()) @db.Timestamptz(6)
+  eventLogo         String
+  socialMediaLinks  Json
+  user              user?      @relation(fields: [userId], references: [id])
 }
 
 enum Role {
