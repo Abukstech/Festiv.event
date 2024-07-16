@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { inngest } from "@/inngest";
 import { useUser } from "@clerk/nextjs";
 import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 
 interface FormValues {
   organizationName: string;
@@ -18,12 +18,18 @@ interface FormValues {
 }
 
 export const CreateOrgAccount: React.FC = () => {
-  const { register, handleSubmit, reset } = useForm<FormValues>();
+  const { register, handleSubmit, reset, control } = useForm<FormValues>();
   const [services, setServices] = useState<string[]>([]);
   const [socialMedia, setSocialMedia] = useState<
     { platform: string; link: string }[]
   >([]);
   const [newService, setNewService] = useState<string>("");
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "socialMedia",
+  });
+
   const [newSocialMedia, setNewSocialMedia] = useState<{
     platform: string;
     link: string;
@@ -32,25 +38,14 @@ export const CreateOrgAccount: React.FC = () => {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     data.services = services;
-    data.socialMedia = socialMedia;
+
     console.log("Form submitted successfully:", data);
 
     if (user) {
-      const socialMediaLinks = data.socialMedia.reduce(({acc, sm}:any)=> {
-        if (sm.platform.toLowerCase() === 'facebook') {
-          acc.fblink = sm.link;
-        } else if (sm.platform.toLowerCase() === 'instagram') {
-          acc.iglink = sm.link;
-        } else if (sm.platform.toLowerCase() === 'twitter') {
-          acc.xlink = sm.link;
-        }
-        return acc;
-      }, { fblink: '', iglink: '', xlink: '' });
-    
-    // Send your event payload to Inngest
-  
-    try{
-      await inngest.send({
+      // Send your event payload to Inngest
+
+      try {
+        const response = await inngest.send({
           name: "app/user.synced",
           data: {
             clerkUserId: user.id,
@@ -66,15 +61,17 @@ export const CreateOrgAccount: React.FC = () => {
             phone: data.mainPhone,
             aboutUs: data.aboutOrganization,
             services: data.services,
-            ...socialMediaLinks,
+            socialMediaLinks: data.socialMedia.map((sm: any) => ({
+              platform: sm.platform,
+              link: sm.link,
+            })),
           },
         });
+
         console.log("User synced successfully");
-    }
-    
-  catch (error) {
-    console.error("Error syncing user:", error);
-  }
+      } catch (error) {
+        console.error("Error syncing user:", error);
+      }
     }
 
     // Sync user data with Inngest
@@ -91,15 +88,15 @@ export const CreateOrgAccount: React.FC = () => {
     }
   };
 
-  const handleAddSocialMedia = () => {
-    if (
-      newSocialMedia.platform.trim() !== "" &&
-      newSocialMedia.link.trim() !== ""
-    ) {
-      setSocialMedia([...socialMedia, newSocialMedia]);
-      setNewSocialMedia({ platform: "", link: "" });
-    }
-  };
+  // const handleAddSocialMedia = () => {
+  //   if (
+  //     newSocialMedia.platform.trim() !== "" &&
+  //     newSocialMedia.link.trim() !== ""
+  //   ) {
+  //     setSocialMedia([...socialMedia, newSocialMedia]);
+  //     setNewSocialMedia({ platform: "", link: "" });
+  //   }
+  // };
 
   return (
     <form
@@ -179,7 +176,8 @@ export const CreateOrgAccount: React.FC = () => {
           {...register("aboutOrganization")}
         ></textarea>
       </div>
-      <div>
+
+      {/* <div>
         <label>Social media:</label>
         <div className="flex">
           <select
@@ -215,7 +213,47 @@ export const CreateOrgAccount: React.FC = () => {
               <span>{sm.link}</span>
             </div>
           ))}
-        </div>
+        </div> */}
+      {/* </div> */}
+
+      <div>
+        <label className="block text-sm md:text-xl text-primary font-medium mb-1">
+          Social Media Links:
+        </label>
+        {fields.map((field, index) => (
+          <div key={field.id} className="flex space-x-4 items-end mb-2">
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Platform:
+              </label>
+              <select
+                {...register(`socialMedia.${index}.platform`)}
+                defaultValue={field.platform}
+                className="p-2 border rounded-md"
+              >
+                <option value="Facebook">Facebook</option>
+                <option value="Twitter">Twitter</option>
+                <option value="Instagram">Instagram</option>
+                <option value="LinkedIn">LinkedIn</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">URL:</label>
+              <input
+                type="url"
+                {...register(`socialMedia.${index}.link`)}
+                className="w-full p-2 border rounded-md"
+              />
+            </div>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => append({ platform: "", link: "" })}
+          className="px-4 py-2 bg-primary text-white rounded-md"
+        >
+          +
+        </button>
       </div>
       <button type="submit">Submit</button>
     </form>

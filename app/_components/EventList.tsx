@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import evtImg from "../../public/images/Rectangle 1.svg";
 
 import EventCard from "./EventCard";
 import CategoryFilter from "./CategoryList";
+import prisma from "../../prisma/client";
+import { EventType } from "@/types/events";
+import { formatDate } from "@/config/helper";
 
 const events = [
   {
@@ -43,19 +47,37 @@ const events = [
   // Add more events
 ];
 
-const EventList = () => {
+type EventListProps = {
+  events: EventType[];
+};
+
+const EventList: React.FC<EventListProps> = ({ events }) => {
+  // const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  // const [selectedDate, setSelectedDate] = useState(Date);
+
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
   const filteredEvents = events.filter((event) => {
-    const eventDate = new Date(event.date).toISOString().split("T")[0];
-    const isDateMatch = selectedDate ? eventDate === selectedDate : true;
+    const eventDates = event.eventDate.map((date) => formatDate(date));
+    const isDateMatch = selectedDate ? eventDates.includes(selectedDate) : true;
     const isCategoryMatch =
       selectedCategory === "All Categories" ||
-      event.category === selectedCategory;
+      event.eventCategory === selectedCategory;
 
     return isDateMatch && isCategoryMatch;
   });
+
+  // const filteredEvents = events.filter((event) => {
+  //   const isDateMatch = selectedDate
+  //     ? event.eventDate.some((date) => date === selectedDate)
+  //     : true;
+  //   const isCategoryMatch =
+  //     selectedCategory === "All Categories" ||
+  //     event.eventCategory === selectedCategory;
+
+  //   return isDateMatch && isCategoryMatch;
+  // });
 
   return (
     <div>
@@ -68,9 +90,9 @@ const EventList = () => {
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-4 md:mx-15 xl:mx-20">
-        {filteredEvents.map((event) => (
-          <div key={event.id}>
-            <EventCard event={event} />
+        {filteredEvents.map((even) => (
+          <div key={even.id}>
+            <EventCard event={even} />
           </div>
         ))}
       </div>

@@ -3,10 +3,6 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-type SocialMediaLinkFormData = {
-  platform: string;
-  url: string;
-};
 
 export type FormData = {
   name: string;
@@ -22,7 +18,7 @@ export type FormData = {
   ticketImage: string;
   ticketPrice: number;
   ticketDescription: string;
-  socialMediaLinks: SocialMediaLinkFormData[];
+  socialMedia: { platform: string; link: string }[];
 };
 
 interface CreateEventFormProps {
@@ -75,7 +71,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "socialMediaLinks",
+    name: "socialMedia",
   });
 
   return (
@@ -306,7 +302,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
                   </label>
                   <select
                     {...register(
-                      `socialMediaLinks.${index}.platform` as const,
+                      `socialMedia.${index}.platform` as const,
                       { required: true }
                     )}
                     className="p-2 border rounded-md"
@@ -321,7 +317,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
                   <label className="block text-sm font-medium mb-1">URL:</label>
                   <input
                     type="url"
-                    {...register(`socialMediaLinks.${index}.url` as const, {
+                    {...register(`socialMedia.${index}.url` as const, {
                       required: true,
                     })}
                     className="w-full p-2 border rounded-md"

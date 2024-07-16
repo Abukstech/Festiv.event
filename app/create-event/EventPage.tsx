@@ -46,8 +46,7 @@ const EventPage = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Final submit logic here
-
+      console.log(data);
       try {
         const imageUploads = uploadedImages.map(async (imageObj) => {
           const url = await uploadImageToFirebase(imageObj.file, "images");
@@ -66,26 +65,8 @@ const EventPage = () => {
           if (upload.type === "ticketImages")
             updatedData.ticketImage = upload.url;
         });
-        // Upload images and get URLs
-        // const uploadPromises = uploadedImages.map(({ file }) =>
-        //   uploadmediatofirebase(file)
-        // );
-        // const urls = await Promise.all(uploadPromises);
 
-        // // Map URLs to respective fields
-        // const eventImages = uploadedImages.reduce((acc, { type }, index) => {
-        //   acc[type] = urls[index];
-        //   return acc;
-        // }, {} as Record<string, string>);
-
-        // const completeData = {
-        //   ...data,
-        //   ...eventImages,
-        // };
-
-        // Send data using inngest
-
-        const response = await inngest.send({
+        await inngest.send({
           name: "app/event.create",
           data: updatedData,
         });

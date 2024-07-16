@@ -73,9 +73,7 @@ export const syncUserFromClerk = inngest.createFunction(
         address: user.address,
         phone: user.phone,
         aboutUs: user.aboutUs,
-        fblink: user.fblink,
-        iglink: user.iglink,
-        xlink: user.xlink,
+        socialMediaLinks: user.socialMediaLinks ?? [],
         email: user.email,
         profilePic: user.profilePic,
 
@@ -88,9 +86,7 @@ export const syncUserFromClerk = inngest.createFunction(
         address: user.address,
         phone: user.phone,
         aboutUs: user.aboutUs,
-        fblink: user.fblink,
-        iglink: user.iglink,
-        xlink: user.xlink,
+        socialMediaLinks: user.socialMediaLinks ?? [],
         email: user.email,
         profilePic: user.profilePic,
         isAdmin: user.isAdmin,
@@ -117,7 +113,6 @@ export const createEvent = inngest.createFunction(
 
     const newEvent = await prisma.event.create({
       data: {
-       
         name: eventData.name,
         eventDate: eventData.eventDate,
         eventDetails: eventData.eventDetails,
@@ -131,6 +126,7 @@ export const createEvent = inngest.createFunction(
         eventLogo: eventData.eventLogo,
         ticketPrice: eventData.ticketPrice,
         ticketDescription: eventData.ticketDescription,
+        socialMediaLinks: eventData.socialMediaLinks ?? [],
       },
     });
 
