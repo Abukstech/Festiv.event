@@ -42,8 +42,10 @@ const EventCard: React.FC<{ event: EventType }> = ({ event }) => {
             })}
           </div>
         </div>
-        {/* <h3 className="text-lg font-bold">{event.title}</h3> */}
-        {/* <p className=" text-[#022543] text-xl sm:text-2xl md:text-3xlfont-bold ">{event. || ""}</p> */}
+        <h3 className="text-lg font-bold">{event.name}</h3>
+        <p className=" text-[#022543] text-xl sm:text-2xl md:text-3xlfont-bold ">
+          {event.user?.organizationName || ""}
+        </p>
         <p className="text-[17px] text-[#022543] font-normal">
           {event.address || ""}
         </p>

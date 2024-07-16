@@ -53,14 +53,14 @@ model event {
   ticketImage       String
   ticketPrice       String
   ticketDescription String
-  userId            Int?
+  userId            String?
   xata_id           String     @unique(map: "event__pgroll_new_xata_id_key") @default(dbgenerated("('rec_'::text || (xata_private.xid())::text)"))
   xata_version      Int        @default(0)
   xata_createdat    DateTime   @default(now()) @db.Timestamptz(6)
   xata_updatedat    DateTime   @default(now()) @db.Timestamptz(6)
   eventLogo         String
   socialMediaLinks  Json
-  user              user?      @relation(fields: [userId], references: [id])
+  user              user?      @relation(fields: [userId], references: [clerkUserId])
 }
 
 enum Role {

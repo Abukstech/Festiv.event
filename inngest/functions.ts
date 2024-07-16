@@ -1,6 +1,7 @@
-import { Prisma, user } from "@prisma/client";
+import { event, Prisma, user } from "@prisma/client";
 import { inngest } from "./client";
 import OpenAI from "openai";
+import { currentUser } from "@clerk/nextjs/server";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
@@ -124,9 +125,10 @@ export const createEvent = inngest.createFunction(
         address: eventData.address,
         ticketImage: eventData.ticketImage,
         eventLogo: eventData.eventLogo,
+        userId: eventData.userId,
         ticketPrice: eventData.ticketPrice,
         ticketDescription: eventData.ticketDescription,
-        socialMediaLinks: eventData.socialMediaLinks ?? [],
+        socialMediaLinks: eventData.socialMedia ?? [],
       },
     });
 

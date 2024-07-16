@@ -30,10 +30,6 @@ export const CreateOrgAccount: React.FC = () => {
     name: "socialMedia",
   });
 
-  const [newSocialMedia, setNewSocialMedia] = useState<{
-    platform: string;
-    link: string;
-  }>({ platform: "", link: "" });
   const { user } = useUser();
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
@@ -87,16 +83,6 @@ export const CreateOrgAccount: React.FC = () => {
       setNewService("");
     }
   };
-
-  // const handleAddSocialMedia = () => {
-  //   if (
-  //     newSocialMedia.platform.trim() !== "" &&
-  //     newSocialMedia.link.trim() !== ""
-  //   ) {
-  //     setSocialMedia([...socialMedia, newSocialMedia]);
-  //     setNewSocialMedia({ platform: "", link: "" });
-  //   }
-  // };
 
   return (
     <form
@@ -176,45 +162,6 @@ export const CreateOrgAccount: React.FC = () => {
           {...register("aboutOrganization")}
         ></textarea>
       </div>
-
-      {/* <div>
-        <label>Social media:</label>
-        <div className="flex">
-          <select
-            className="block border p-2"
-            value={newSocialMedia.platform}
-            onChange={(e) =>
-              setNewSocialMedia({ ...newSocialMedia, platform: e.target.value })
-            }
-          >
-            <option value="">Select Platform</option>
-            <option value="Facebook">Facebook</option>
-            <option value="Twitter">Twitter</option>
-            <option value="LinkedIn">LinkedIn</option>
-            <option value="Instagram">Instagram</option>
-          </select>
-          <input
-            className="block border p-2"
-            type="text"
-            value={newSocialMedia.link}
-            onChange={(e) =>
-              setNewSocialMedia({ ...newSocialMedia, link: e.target.value })
-            }
-            placeholder="Link"
-          />
-          <Button type="button" onClick={handleAddSocialMedia}>
-            +
-          </Button>
-        </div>
-        <div>
-          {socialMedia.map((sm, index) => (
-            <div key={index}>
-              <span>{sm.platform}</span>
-              <span>{sm.link}</span>
-            </div>
-          ))}
-        </div> */}
-      {/* </div> */}
 
       <div>
         <label className="block text-sm md:text-xl text-primary font-medium mb-1">

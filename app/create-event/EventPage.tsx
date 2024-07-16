@@ -9,6 +9,7 @@ import CreateTicketForm from "./_components/CreateTicketForm";
 import { inngest } from "@/inngest";
 import { event } from "@prisma/client";
 import { uploadImageToFirebase } from "@/config/upload-media";
+import { useUser } from "@clerk/nextjs";
 
 interface UploadedImage {
   file: File;
@@ -17,6 +18,7 @@ interface UploadedImage {
 const EventPage = () => {
   const methods = useForm<event>();
   const [currentStep, setCurrentStep] = useState(0);
+  const user = useUser();
 
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
 
@@ -65,30 +67,37 @@ const EventPage = () => {
           if (upload.type === "ticketImages")
             updatedData.ticketImage = upload.url;
         });
+        updatedData.userId = user.user?.id ?? null;
 
-        await inngest.send({
-          name: "app/event.create",
-          data: updatedData,
+        const response = await fetch("/api/eventss", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updatedData),
         });
 
-        console.log("Event created:", data);
+        if (!response.ok) {
+          throw new Error("Failed to create event");
+        }
+
+        const result = await response.json();
+        console.log("Event created:", result);
       } catch (error) {
         console.error("Error uploading images or sending data:", error);
       }
-
-      //   try {
-      //     const urls = await Promise.all(
-      //       uploadedImages.map(({ file }) => uploadmediatofirebase(file))
-      //     );
-      //     console.log("All image URLs:", urls);
-      //     // Proceed with the final form submission with image URLs included
-      //     console.log(data);
-      //   } catch (error) {
-      //     console.error("Error uploading images:", error);
-      //   }
-      //   console.log(data);
     }
   };
+
+  //   try {
+  //     const urls = await Promise.all(
+  //       uploadedImages.map(({ file }) => uploadmediatofirebase(file))
+  //     );
+  //     console.log("All image URLs:", urls);
+  //     // Proceed with the final form submission with image URLs included
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error("Error uploading images:", error);
+  //   }
+  //   console.log(data);
 
   //   { label: "Feedback", component: <FeedbackForm /> },]
   return (
