@@ -74,17 +74,11 @@ export const CreateOrgAccount: React.FC = () => {
           },
         });
         console.log("User synced successfully");
-    }
-    
-    
-    toast({
-      title: "Success: Great work!",
-      description: "You will be redirected shortly ",
-    })
-
-
-
-  catch (error) {
+        toast({
+          title: "Success: Great work!",
+          description: "You will be redirected shortly ",
+        })
+    } catch (error) {
     console.error("Error syncing user:", error);
   }
     }

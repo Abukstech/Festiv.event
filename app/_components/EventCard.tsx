@@ -12,7 +12,7 @@ const EventCard = ({ event }: {event:any}) => {
       <Image
         alt={event.title || ""}
         src={event.image || ""}
-        className="md:w-[317px] w-full rounded-t-2xl"
+        className="md:w-[317px] w-full rounded-t-2xl object-cover"
       />
       <div className="p-2 bg-white sm:mt-[-50px] rounded-2xl flex flex-col gap-2  border w-[317px]  ">
         <div className="flex flex-row justify-between px-3 items-center border-b py-1">
