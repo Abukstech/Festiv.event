@@ -11,6 +11,7 @@ import { event } from "@prisma/client";
 import { uploadImageToFirebase } from "@/config/upload-media";
 import { toast } from "@/components/ui/use-toast";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 interface UploadedImage {
   file: File;
@@ -19,8 +20,9 @@ interface UploadedImage {
 const EventPage = () => {
   const methods = useForm<event>();
   const [currentStep, setCurrentStep] = useState(0);
+  const [isLoading, setLoading] = useState(false);
   const user = useUser();
-
+  const router = useRouter();
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
 
   const steps = [
@@ -51,6 +53,7 @@ const EventPage = () => {
     } else {
       console.log(data);
       try {
+        setLoading(true);
         const imageUploads = uploadedImages.map(async (imageObj) => {
           const url = await uploadImageToFirebase(imageObj.file, "images");
           return { type: imageObj.type, url };
@@ -76,20 +79,32 @@ const EventPage = () => {
           body: JSON.stringify(updatedData),
         });
 
+        setLoading(false);
         toast({
           title: "Success: Great work!",
           description: "You will be redirected shortly ",
-        })
-
+        });
 
         if (!response.ok) {
           throw new Error("Failed to create event");
+
+         
+
         }
+
+        router.push("/vendor_profile");
 
         const result = await response.json();
         console.log("Event created:", result);
       } catch (error) {
         console.error("Error uploading images or sending data:", error);
+
+        toast({
+          title: "Error",
+          description: "Failed to create event",
+        });
+
+        router.push("/vendor_profile");
       }
     }
   };

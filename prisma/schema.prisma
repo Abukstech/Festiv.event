@@ -33,6 +33,7 @@ model user {
   aboutUs          String
   address          String
   organizationName String
+  services         String[]
   phone            String
   state            String
   socialMediaLinks Json

@@ -87,6 +87,7 @@ export const syncUserFromClerk = inngest.createFunction(
         address: user.address,
         phone: user.phone,
         aboutUs: user.aboutUs,
+        services: user.services,
         socialMediaLinks: user.socialMediaLinks ?? [],
         email: user.email,
         profilePic: user.profilePic,

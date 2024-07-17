@@ -61,6 +61,8 @@ const Vendor_profile = async () => {
     },
   });
 
+  console.log(eventHost)
+
   const properties = await prisma.event.findMany({
     orderBy: {
       xata_updatedat: "desc",
@@ -89,7 +91,7 @@ const Vendor_profile = async () => {
             content={
               <div className="flex gap-4">
                 {Array.from({ length: 5 }).map((t: any, i: number) => (
-                  <ContentContainer key={i} content="Content" />
+                  <ContentContainer key={i} content={"Content"}/>
                 ))}
               </div>
             }

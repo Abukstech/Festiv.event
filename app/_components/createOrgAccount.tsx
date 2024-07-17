@@ -98,7 +98,7 @@ export const CreateOrgAccount: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-secondary w-fit p-4 rounded-3xl"
+      className="bg-secondary w-[50] p-4 rounded-3xl"
     >
       <div>
         <label>Organization Name:</label>
@@ -157,13 +157,18 @@ export const CreateOrgAccount: React.FC = () => {
               }
             }}
           />
-          <Button type="button" onClick={handleAddService}>
+          <Button type="button" className="nt-4" onClick={handleAddService}>
             Add Service
           </Button>
         </div>
-        <div>
+        <div className="mt-3 flex flex-row">
           {services.map((service, index) => (
-            <span key={index}>{service}</span>
+            <span
+              key={index}
+              className="border rounded-sm bg-primary py-2 px-4 text-secondary hover:bg-secondary hover:text-primary  text-base transition-opacity"
+            >
+              {service}
+            </span>
           ))}
         </div>
       </div>
@@ -209,12 +214,14 @@ export const CreateOrgAccount: React.FC = () => {
         <button
           type="button"
           onClick={() => append({ platform: "", link: "" })}
-          className="px-4 py-2 bg-primary text-white rounded-md"
+          className="px-4 py-2 mb-4 bg-primary text-white rounded-md"
         >
           +
         </button>
       </div>
-      <button type="submit">Submit</button>
+      <Button className="w-full" type="submit">
+        Create Account
+      </Button>
     </form>
   );
 };
