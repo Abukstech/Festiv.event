@@ -49,7 +49,7 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
 
-const categories = [
+export const categories = [
   "All Categories",
   "Music Concert",
   "Tech/Technology",
@@ -67,7 +67,7 @@ const CategoryFilter = ({
   return (
     <div className="flex flex-col md:flex-row items-center my-4 w-full justify-center">
       <div className="relative w-full md:w-auto flex justify-center md:justify-start">
-      <input
+        <input
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by Event Name"

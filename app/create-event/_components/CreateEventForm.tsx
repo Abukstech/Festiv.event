@@ -27,6 +27,8 @@ interface CreateEventFormProps {
   uploadedImages: { file: File; type: string }[];
 }
 
+const categories = ["Music Concert", "Tech/Technology", "NGO"];
+
 const CreateEventForm: React.FC<CreateEventFormProps> = ({
   setUploadedImages,
   uploadedImages = [],
@@ -34,22 +36,6 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
   const [days, setDays] = useState(1);
 
   const [previewImages, setPreviewImages] = useState<string[]>([]);
-
-  // const handleImageChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>,
-  //   type: string
-  // ) => {
-  //   if (e.target.files) {
-  //     const files = Array.from(e.target.files).map((file) => ({ file, type }));
-  //     const previewURLs = Array.from(e.target.files).map((file) =>
-  //       URL.createObjectURL(file)
-  //     );
-
-  //     setPreviewImages((prev) => [...prev, ...previewURLs]);
-  //     setUploadedImages((prev) => [...prev, ...files]);
-  //     setValue(type as any, e.target.files); // Update form value with selected files
-  //   }
-  // };
 
   const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -116,8 +102,8 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
           </div>
           <div className="col-span-1 md:col-span-2">
             <label
-            className="block text-sm text-primary font-medium "             
-             htmlFor="state"
+              className="block text-sm text-primary font-medium "
+              htmlFor="state"
             >
               State:
             </label>
@@ -129,7 +115,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
             />
           </div>
 
-          <div className="col-span-1 md:col-span-2">
+          {/* <div className="col-span-1 md:col-span-2">
           <label
             className="block text-sm text-primary font-medium "    
               htmlFor="category"
@@ -142,10 +128,30 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
               {...register("eventCategory", { required: true })}
               className="w-full p-2 border rounded-md"
             />
+          </div> */}
+
+          <div className="col-span-1 md:col-span-2">
+            <label
+              className="block text-sm text-primary font-medium"
+              htmlFor="category"
+            >
+              Category
+            </label>
+            <select
+              id="category"
+              {...register("eventCategory", { required: true })}
+              className="w-full p-2 border rounded-md"
+            >
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="col-span-1 md:col-span-2">
-          <label
-            className="block text-sm text-primary font-medium "    
+            <label
+              className="block text-sm text-primary font-medium "
               htmlFor="address"
             >
               Event Address:
@@ -231,8 +237,8 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
             </div>
           </div> */}
           <div className="col-span-1 md:col-span-2">
-          <label
-            className="block text-sm text-primary font-medium "    
+            <label
+              className="block text-sm text-primary font-medium "
               htmlFor="details"
             >
               Details:
@@ -253,7 +259,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
             {loading ? "Generating..." : "Generate Description"}
           </button>
           <div className="col-span-1 md:col-span-2">
-          <label    className="block text-sm text-primary font-medium "    >
+            <label className="block text-sm text-primary font-medium ">
               RSVP:
             </label>
             <div className="flex space-x-4">
@@ -321,8 +327,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
             </div>
           </div> */}
           <div className="col-span-1 md:col-span-2 mb-5">
-          <label
-            className="block text-sm text-primary font-medium "    >
+            <label className="block text-sm text-primary font-medium ">
               Social Media Links:
             </label>
             {fields.map((field, index) => (
