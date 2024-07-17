@@ -1,8 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
 import { inngest } from "@/inngest";
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 
@@ -24,6 +26,8 @@ export const CreateOrgAccount: React.FC = () => {
     { platform: string; link: string }[]
   >([]);
   const [newService, setNewService] = useState<string>("");
+
+  const router = useRouter();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -75,6 +79,13 @@ export const CreateOrgAccount: React.FC = () => {
     reset();
     setServices([]);
     setSocialMedia([]);
+
+    toast({
+      title: "Success: Great work!",
+      description: "You will be redirected shortly ",
+    });
+
+    router.push("/portal");
   };
 
   const handleAddService = () => {
