@@ -38,12 +38,12 @@ const EventDetailsPage = async ({ params: { id } }: Props) => {
         />
       </div>
 
-      <section className=" flex flex-row justify-between space-x-10 mx-20 p-6">
+      <section className=" flex md:flex-row flex-col justify-between md:space-x-10 md:mx-20  p-6">
         <SectionContainer
           title={"Event Details"}
           content={<p>{event?.eventDetails!}</p>}
         />
-        <div className="flex- mt-[-100px] ml-[-100px] z-10">
+        <div className="flex- md:mt-[-100px] md:ml-[-100px] mr-5 md:mr-0 z-10">
           {/* Edit and delete event */}
 
           <div className="bg-white shadow-md  py-2 overflow-hidden flex flex-col gap-3 rounded-3xl px-2 w-[350px] border border-[#022543] ">
