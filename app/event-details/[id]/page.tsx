@@ -2,6 +2,9 @@ import Hero from "@/app/_components/Hero";
 import React from "react";
 import Map from "../../../public/images/Rectangle 2.svg";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@iconify/react/dist/iconify.js";
+import { Global_Icon } from "@/app/_components/global_Icon";
 import prisma from "@/prisma/client";
 
 interface Props {
@@ -38,8 +41,10 @@ const EventDetailsPage = async ({ params: { id } }: Props) => {
           <p className="max-w-[880px] ">{event?.eventDetails}</p>
         </article>
 
-        <div className="flex-1 mt-[-100px] z-10">
-          <div className="bg-white shadow-md  py-2 overflow-hidden flex flex-col gap-3 rounded-[30px] px-4 max-w-[400px] border border-[#022543] ">
+        <div className="flex- mt-[-100px] ml-[-100px] z-10">
+{/* Edit and delete event */}
+
+          <div className="bg-white shadow-md  py-2 overflow-hidden flex flex-col gap-3 rounded-3xl px-2 w-[350px] border border-[#022543] ">
             <div className="flex flex-row justify-between px-3 items-center border-b py-2">
               <p>Digital</p>
               <p className="text-sm text-gray-600">

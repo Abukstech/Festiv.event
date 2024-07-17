@@ -9,6 +9,7 @@ import CreateTicketForm from "./_components/CreateTicketForm";
 import { inngest } from "@/inngest";
 import { event } from "@prisma/client";
 import { uploadImageToFirebase } from "@/config/upload-media";
+import { toast } from "@/components/ui/use-toast";
 import { useUser } from "@clerk/nextjs";
 
 interface UploadedImage {
@@ -75,6 +76,12 @@ const EventPage = () => {
           body: JSON.stringify(updatedData),
         });
 
+        toast({
+          title: "Success: Great work!",
+          description: "You will be redirected shortly ",
+        })
+
+
         if (!response.ok) {
           throw new Error("Failed to create event");
         }
@@ -102,7 +109,7 @@ const EventPage = () => {
   //   { label: "Feedback", component: <FeedbackForm /> },]
   return (
     <FormProvider {...methods}>
-      <main className=" gap-8 my-5 min-h-screen  bg-[#F5F4F4] shadow-md rounded-md border border-black mx-20  p-8  ">
+      <main className=" gap-8 my-5 min-h-screen  border-black  ">
         <div className="flex justify-center gap-4 mb-5">
           {steps.map((step, index) => (
             <button

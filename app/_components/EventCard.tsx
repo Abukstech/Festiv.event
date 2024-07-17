@@ -2,14 +2,14 @@
 import React from "react";
 import Image from "next/image";
 import { Card, CardContent } from "../../components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button} from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { EventType } from "@/types/events";
 
 const EventCard: React.FC<{ event: EventType }> = ({ event }) => {
   return (
-    <div className="bg-white shadow-md w-full  overflow-hidden flex flex-col gap-1 rounded-[30px]  h-fit sm:p-1 ">
+    <div className="bg-white shadow-sm w-fit overflow-hidden flex flex-col gap-1 rounded-2xl  h-fit sm:p-1 bg-primary     cursor-default  transition-all ease-out  hover:shadow-lg   group  flex-wrap  transform hover:z-20 hover:border hover:scale-105">
       <Image
         alt={event.name || ""}
         src={event.eventImage || ""}
@@ -50,9 +50,9 @@ const EventCard: React.FC<{ event: EventType }> = ({ event }) => {
           {event.address || ""}
         </p>
         <Link href={`/event-details/${event.id || ""}`}>
-          <button className="mt-2 bg-white text-[#022543] text-xl border-2 border-[#022543] w-full   py-1 px-3 rounded-[30px]">
+          <Button size={'sm'}  className="mt-2  border-2 w-full py-1 px-3 rounded-full">
             View Ticket Options
-          </button>
+          </Button>
         </Link>
       </div>
     </div>
