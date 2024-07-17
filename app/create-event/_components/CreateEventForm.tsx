@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useFieldArray, useFormContext } from "react-hook-form";
 
-
 export type FormData = {
   name: string;
   eventDate: string[]; // Use string for dates in forms for simplicity
@@ -67,7 +66,30 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
       setValue(type, e.target.files[0]); // Update form value with selected files
     }
   };
-  const { register, control, setValue, watch } = useFormContext();
+  const { register, control, setValue, watch, getValues } = useFormContext();
+
+  const [loading, setLoading] = useState(false);
+
+  const handleGenerateDescription = async () => {
+    setLoading(true);
+    const eventDetails = getValues("name"); // Adjust based on your form field
+    try {
+      const response = await fetch("/api/generateDescription", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ eventDetails }),
+      });
+
+      const data = await response.json();
+      setValue("eventDetails", data.description);
+    } catch (error) {
+      console.error("Failed to generate event description:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -222,6 +244,14 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
               rows={4}
             ></textarea>
           </div>
+
+          <button
+            type="button"
+            onClick={handleGenerateDescription}
+            disabled={loading}
+          >
+            {loading ? "Generating..." : "Generate Description"}
+          </button>
           <div className="col-span-1 md:col-span-2">
           <label    className="block text-sm text-primary font-medium "    >
               RSVP:
@@ -302,10 +332,9 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
                     Platform:
                   </label>
                   <select
-                    {...register(
-                      `socialMedia.${index}.platform` as const,
-                      { required: true }
-                    )}
+                    {...register(`socialMedia.${index}.platform` as const, {
+                      required: true,
+                    })}
                     className="p-2 border rounded-md"
                   >
                     <option value="Facebook">Facebook</option>
