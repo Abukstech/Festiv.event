@@ -1,5 +1,5 @@
 import Hero from "@/app/_components/Hero";
-import React from "react";
+import React, { useState } from "react";
 import Map from "../../../public/images/Rectangle 2.svg";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Global_Icon } from "@/app/_components/global_Icon";
 import prisma from "@/prisma/client";
 import { SectionContainer } from "@/app/_components/sectionContainer";
 import { ContentContainer } from "@/app/_components/contentContainer";
+import TicketButton from "../_comps/TicketButton";
 
 interface Props {
   params: {
@@ -71,9 +72,7 @@ const EventDetailsPage = async ({ params: { id } }: Props) => {
 
             <Image src={Map} className="w-full h-48 object-cover" alt="map" />
             <p className="text-gray-700">{event?.address}</p>
-            <button className="mt-2 bg-white text-[#022543] text-2xl border-2 border-[#022543] w-full   py-1 px-3 rounded-[30px]">
-              Book Ticket - ₦{event?.ticketPrice}
-            </button>
+            <TicketButton price={event?.ticketPrice!} />
           </div>
         </div>
       </section>
