@@ -129,6 +129,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
 
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredEvents = events.filter((event) => {
     const eventDates = event.eventDate.map((date) => formatDate(date));
@@ -137,19 +138,12 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
       selectedCategory === "All Categories" ||
       event.eventCategory === selectedCategory;
 
-    return isDateMatch && isCategoryMatch;
+    const isSearchMatch = event.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+
+    return isDateMatch && isCategoryMatch && isSearchMatch;
   });
-
-  // const filteredEvents = events.filter((event) => {
-  //   const isDateMatch = selectedDate
-  //     ? event.eventDate.some((date) => date === selectedDate)
-  //     : true;
-  //   const isCategoryMatch =
-  //     selectedCategory === "All Categories" ||
-  //     event.eventCategory === selectedCategory;
-
-  //   return isDateMatch && isCategoryMatch;
-  // });
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -159,17 +153,18 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
           setCategory={setSelectedCategory}
           date={selectedDate}
           setDate={setSelectedDate}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
         />
       </div>
       <div className="flex  justify-center items-center">
-
-      <div className="grid  justify-center items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-4">
-        {filteredEvents.map((event) => (
-          <div key={event.id}>
-            <EventCard event={event} />
-          </div>
-        ))}
-      </div>
+        <div className="grid  justify-center items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-4">
+          {filteredEvents.map((event) => (
+            <div key={event.id}>
+              <EventCard event={event} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
