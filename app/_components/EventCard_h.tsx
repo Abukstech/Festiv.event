@@ -30,9 +30,9 @@ const EventCard_h = ({ event }: { event: EventType }) => {
               });
 
               return (
-                <p className="text-sm text-gray-600 whitespace-nowrap" key={index}>
+                <span className="text-sm  block  text-gray-600 whitespace-nowrap" key={index}>
                   {formattedTime}
-                </p>
+                </span>
               );
             })}
           </p>
