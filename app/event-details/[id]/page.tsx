@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Global_Icon } from "@/app/_components/global_Icon";
 import prisma from "@/prisma/client";
+import { SectionContainer } from "@/app/_components/sectionContainer";
+import { ContentContainer } from "@/app/_components/contentContainer";
 
 interface Props {
   params: {
@@ -30,23 +32,23 @@ const EventDetailsPage = async ({ params: { id } }: Props) => {
         <Image
           src={event?.eventImage!}
           alt={event?.name!}
-          width={100}
-          height={100}
+          width={1000}
+          height={1000}
           className="w-full h-[400px] md:h-[60vh]  object-cover"
         />
       </div>
 
       <section className=" flex flex-row justify-between space-x-10 mx-20 p-6">
-        <article className="flex flex-col items-center flex-1  ">
-          <p className="max-w-[880px] ">{event?.eventDetails}</p>
-        </article>
-
+        <SectionContainer
+          title={"Event Details"}
+          content={<p>{event?.eventDetails!}</p>}
+        />
         <div className="flex- mt-[-100px] ml-[-100px] z-10">
-{/* Edit and delete event */}
+          {/* Edit and delete event */}
 
           <div className="bg-white shadow-md  py-2 overflow-hidden flex flex-col gap-3 rounded-3xl px-2 w-[350px] border border-[#022543] ">
             <div className="flex flex-row justify-between px-3 items-center border-b py-2">
-              <p>Digital</p>
+              <p>{event?.eventCategory}</p>
               <p className="text-sm text-gray-600">
                 {event?.eventDate.map((dateTime: Date, index: number) => {
                   const formattedDate = dateTime.toLocaleDateString();
@@ -75,6 +77,18 @@ const EventDetailsPage = async ({ params: { id } }: Props) => {
           </div>
         </div>
       </section>
+
+      <div className=" mx-20 min-w-[80%]">
+        <SectionContainer
+          title={"Rsvp"}
+          content={
+            <div className=" space-y-4 ">
+              <ContentContainer title="Rsvp Name:" content={event?.rsvpName!} />
+              <ContentContainer title="Rsvp Phone:" content={event?.rsvpTel!} />
+            </div>
+          }
+        />
+      </div>
     </main>
   );
 };
