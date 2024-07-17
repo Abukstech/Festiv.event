@@ -26,7 +26,7 @@ const prismaMiddleware = new InngestMiddleware({
 
 // Create a client to send and receive events
 export const inngest = new Inngest({
-  id: "next-pxci-starter",
+  id: "event-app",
   baseUrl: "https://next-pxci-project-1m9d.vercel.app",
   middleware: [prismaMiddleware],
 });
