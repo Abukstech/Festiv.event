@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { event } from "@prisma/client";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -60,7 +61,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
     setLoading(true);
     const eventDetails = getValues("name"); // Adjust based on your form field
     try {
-      const response = await fetch("/api/generateDescription", {
+      const response = await fetch("/actions/generateDescription", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -251,13 +252,13 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
             ></textarea>
           </div>
 
-          <button
+          <Button
             type="button"
             onClick={handleGenerateDescription}
             disabled={loading}
           >
-            {loading ? "Generating..." : "Generate Description"}
-          </button>
+            {loading ? "Generating..." : "Generate Description With Festive AI"}
+          </Button>
           <div className="col-span-1 md:col-span-2">
             <label className="block text-sm text-primary font-medium ">
               RSVP:

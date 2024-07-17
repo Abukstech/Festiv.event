@@ -73,7 +73,7 @@ const EventPage = () => {
         });
         updatedData.userId = user.user?.id ?? null;
 
-        const response = await fetch("/api/eventss", {
+        const response = await fetch("/action/eventss", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updatedData),
@@ -87,9 +87,6 @@ const EventPage = () => {
 
         if (!response.ok) {
           throw new Error("Failed to create event");
-
-         
-
         }
 
         router.push("/vendor_profile");

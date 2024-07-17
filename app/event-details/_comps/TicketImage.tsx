@@ -21,7 +21,7 @@ const TicketPurchaseModal: React.FC<TicketPurchaseModalProps> = ({
 
   const handlePay = async () => {
     try {
-      const response = await fetch("/api/create-checkout-session", {
+      const response = await fetch("/actions/create-checkout-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
