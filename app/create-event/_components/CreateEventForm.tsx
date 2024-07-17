@@ -61,7 +61,7 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
     setLoading(true);
     const eventDetails = getValues("name"); // Adjust based on your form field
     try {
-      const response = await fetch("/actions/generateDescription", {
+      const response = await fetch("/api/generateDescription", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

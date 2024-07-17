@@ -73,7 +73,7 @@ const EventPage = () => {
         });
         updatedData.userId = user.user?.id ?? null;
 
-        const response = await fetch("/action/eventss", {
+        const response = await fetch("/api/eventss", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(updatedData),
