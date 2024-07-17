@@ -137,6 +137,7 @@ export const CreateOrgAccount: React.FC = () => {
             className="block border p-2"
             type="text"
             value={newService}
+            {...register("services")}
             onChange={(e) => setNewService(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -206,7 +207,3 @@ export const CreateOrgAccount: React.FC = () => {
     </form>
   );
 };
-
-
-
-    
