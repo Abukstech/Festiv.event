@@ -28,5 +28,8 @@ const prismaMiddleware = new InngestMiddleware({
 export const inngest = new Inngest({
   id: "event-app",
   baseUrl: "https://next-pxci-project-1m9d.vercel.app",
+  keys: {
+    api: process.env.NEXT_INNGEST_API_KEY, // Ensure this matches your environment variable
+  },
   middleware: [prismaMiddleware],
 });
