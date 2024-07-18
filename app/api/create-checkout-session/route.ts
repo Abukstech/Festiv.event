@@ -38,8 +38,8 @@ export async function POST(req: NextRequest) {
         },
       ],
       mode: "payment",
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
+      success_url: `${process.env.NEXT_BASE_URL}/success`,
+      cancel_url: `${process.env.NEXT_BASE_URL}/cancel`,
     });
 
     // Return session ID as JSON response with HTTP status 200
