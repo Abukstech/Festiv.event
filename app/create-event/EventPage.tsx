@@ -12,6 +12,7 @@ import { uploadImageToFirebase } from "@/config/upload-media";
 import { toast } from "@/components/ui/use-toast";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import Spinner from "../../app/_components/Spinner";
 
 interface UploadedImage {
   file: File;
@@ -171,7 +172,16 @@ const EventPage = () => {
               type="submit"
               className="px-4 py-2 bg-primary text-white rounded"
             >
-              {currentStep < steps.length - 1 ? "Next" : "Submit"}
+              {isLoading ? (
+                <>
+                  {currentStep < steps.length - 1 ? "Next" : "Submit"}{" "}
+                  <Spinner />
+                </>
+              ) : currentStep < steps.length - 1 ? (
+                "Next"
+              ) : (
+                "Submit"
+              )}
             </button>
           </div>
         </form>

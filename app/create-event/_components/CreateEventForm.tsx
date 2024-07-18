@@ -2,7 +2,9 @@ import { Button } from "@/components/ui/button";
 import { event } from "@prisma/client";
 import Image from "next/image";
 import React, { useState } from "react";
-import { useFieldArray, useFormContext } from "react-hook-form";
+import "easymde/dist/easymde.min.css";
+import { useFieldArray, useFormContext, Controller } from "react-hook-form";
+import SimpleMDE from "react-simplemde-editor";
 
 export type FormData = {
   name: string;
@@ -244,16 +246,18 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
             >
               Details:
             </label>
-            <textarea
-              id="details"
-              className="w-full p-2 border rounded-md border-primary"
-              {...register("eventDetails", { required: true })}
-              rows={4}
-            ></textarea>
+            <Controller
+              name="eventDetails"
+              control={control}
+              render={({ field }) => (
+                <SimpleMDE placeholder="Enter Details" {...field} />
+              )}
+            />
           </div>
 
           <Button
             type="button"
+            className="w-fit px-3"
             onClick={handleGenerateDescription}
             disabled={loading}
           >
@@ -361,13 +365,13 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
                 </div>
               </div>
             ))}
-            <button
+            <Button
               type="button"
               onClick={() => append({ platform: "", url: "" })}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md"
+              className="px-4 py-2 b text-white rounded-md"
             >
               Add Social Media Link
-            </button>
+            </Button>
           </div>
         </div>
       </article>
