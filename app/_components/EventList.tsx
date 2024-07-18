@@ -158,7 +158,7 @@ const EventList: React.FC<EventListProps> = ({ events }) => {
         />
       </div>
       <div className="flex  justify-center items-center">
-        <div className="grid  justify-center items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-4">
+        <div className="grid  justify-center items-center gap-3 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-4">
           {filteredEvents.map((event) => (
             <div key={event.id}>
               <EventCard event={event} />
