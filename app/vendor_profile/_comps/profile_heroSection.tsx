@@ -32,9 +32,9 @@ export const HeroSection = ({ name, imageUrl }: any) => {
                 className=" h- h-5 w-5 text-[#DA9352]"
               />
               <p className="font-bold">3.4</p>
-              <p className="text-18 opacity-75">
+              {/* <p className="text-18 opacity-75">
                 Event Planner | Decorator | Chairs Rental
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

@@ -34,44 +34,30 @@ export const CreateOrgAccount: React.FC = () => {
     name: "socialMedia",
   });
 
-  const { user } = useUser();
-
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     data.services = services;
 
     console.log("Form submitted successfully:", data);
 
-    if (user) {
-      // Send your event payload to Inngest
+    try {
+      const response = await fetch("/api/org-account", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-      try {
-        const response = await inngest.send({
-          name: "app/user.synced",
-          data: {
-            clerkUserId: user.id,
-            email: user.emailAddresses[0].emailAddress,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            profilePic: user.imageUrl,
-            role: "USER",
-            organizationName: data.organizationName,
-            address: data.address,
-            state: data.state,
-            country: data.country,
-            phone: data.mainPhone,
-            aboutUs: data.aboutOrganization,
-            services: data.services,
-            socialMediaLinks: data.socialMedia.map((sm: any) => ({
-              platform: sm.platform,
-              link: sm.link,
-            })),
-          },
-        });
+      const result = await response.json();
+      toast({
+        title: "Success: Great work!",
+        description: "You will be redirected shortly ",
+      });
+    } catch (error) {
+      console.error("Error Create Account ", error);
 
-        console.log("User synced successfully");
-      } catch (error) {
-        console.error("Error syncing user:", error);
-      }
+      toast({
+        title: "Error",
+        description: "Error Creating Account",
+      });
     }
 
     // Sync user data with Inngest
@@ -79,11 +65,6 @@ export const CreateOrgAccount: React.FC = () => {
     reset();
     setServices([]);
     setSocialMedia([]);
-
-    toast({
-      title: "Success: Great work!",
-      description: "You will be redirected shortly ",
-    });
 
     router.push("/portal");
   };
