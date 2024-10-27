@@ -37,10 +37,9 @@ export async function GET(request: Request): Promise<NextResponse> {
 
  
 
-  // Return only the assistant's response
   return NextResponse.json({ generated_text: output });
 
-// Return the output directly if it’s plain text
+
 
 
 
