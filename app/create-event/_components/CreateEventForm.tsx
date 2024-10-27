@@ -61,18 +61,34 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
 
   const handleGenerateDescription = async () => {
     setLoading(true);
-    const eventDetails = getValues("name"); // Adjust based on your form field
+    const name = getValues("name"); // Adjust if your field name is different
+    const state = getValues("state");
+    const city = getValues("address");
+    const category = getValues("eventCategory");
+
     try {
-      const response = await fetch("/api/generateDescription", {
-        method: "POST",
+      const queryParams = new URLSearchParams({
+        name,
+        state,
+        city,
+        category,
+      }).toString();
+      const response = await fetch(`/api/generateText?${queryParams}`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ eventDetails }),
       });
-
       const data = await response.json();
-      setValue("eventDetails", data.description);
+
+      // Access the generated text from the response
+      const description = data.generated_text[0]?.generated_text[1]?.content; // Get the assistant's content
+      console.log(description);
+      if (description) {
+        setValue("eventDetails", description);
+      } else {
+        console.error("No description found in the response");
+      }
     } catch (error) {
       console.error("Failed to generate event description:", error);
     } finally {

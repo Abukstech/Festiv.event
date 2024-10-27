@@ -61,7 +61,7 @@ const Vendor_profile = async () => {
     },
   });
 
-  console.log(eventHost)
+  console.log(eventHost);
 
   const properties = await prisma.event.findMany({
     orderBy: {
@@ -90,9 +90,10 @@ const Vendor_profile = async () => {
             title={"Our Services"}
             content={
               <div className="flex gap-4">
-                {Array.from({ length: 5 }).map((t: any, i: number) => (
-                  <ContentContainer key={i} content={"Content"}/>
-                ))}
+                {eventHost?.services &&
+                  eventHost.services.map((t, i) => (
+                    <ContentContainer key={i} content={t} />
+                  ))}
               </div>
             }
           />

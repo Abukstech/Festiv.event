@@ -19,12 +19,12 @@ export const CreateEvent = () => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>Create a New Event</Button>
+        <Button>Launch Your Next Big Event</Button>
       </AlertDialogTrigger>
 
       <AlertDialogContent className="max-w-[800px]  p-0  bg-background">
         <AlertDialogHeader className="flex items-center flex-row justify-between w-full p-2 px-4 border-b">
-          <h3 className="text-2xl font-bold">Create a Event</h3>
+          <h3 className="text-2xl font-semibold">Plan an Event That Inspires</h3>
           <AlertDialogCancel className="w-fit ">X</AlertDialogCancel>
         </AlertDialogHeader>
         <AlertDialogDescription>

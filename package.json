@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.6",
+    "@huggingface/transformers": "^3.0.1",
     "@prisma/adapter-pg": "^5.16.1",
     "@prisma/client": "^5.16.1",
     "@radix-ui/react-alert-dialog": "^1.1.1",
