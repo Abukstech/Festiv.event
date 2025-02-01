@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import { getGenerator } from "./pipeline";
+import { openai } from "./pipeline";
+
+
 
 // Define the type for the classification result if needed
-type ClassificationResult = any; // Adjust this to the specific type returned by your pipeline if known
+
 
 export async function GET(request: Request): Promise<NextResponse> {
   const url = new URL(request.url);
@@ -23,12 +25,26 @@ export async function GET(request: Request): Promise<NextResponse> {
   }
 
   // Construct the prompt for text generation
-  const text = `Generate a description for ${name}, an event happening in ${state}, ${city} falling under category of ${category}.`;
+  const text = `Craft an engaging description for "${name}", an exciting event taking place in ${city}, ${state}. This event falls under the category of ${category} and promises to offer a unique experience for attendees. Highlight the key aspects of the event, such as its theme, target audience, and any special features or activities that make it stand out.`;
 
-  const generator = await getGenerator();
-  const output = await generator([{ role: "user", content: text }], {
-    max_new_tokens: 64,
-  });
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+        
+        {
+            role: "user",
+            content: text,
+        },
+    ],
+  
+});
 
-  return NextResponse.json({ generated_text: output });
+
+
+
+  // const output = await generator([{ role: "user", content: text }], {
+  //   max_new_tokens: 64,
+  // });
+
+  return NextResponse.json({ generated_text: completion.choices[0].message});
 }

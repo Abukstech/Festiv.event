@@ -79,11 +79,19 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
           "Content-Type": "application/json",
         },
       });
-      const data = await response.json();
 
-      // Access the generated text from the response
-      const description = data.generated_text[0]?.generated_text[1]?.content; // Get the assistant's content
-      console.log(description);
+      if (!response.ok) {
+        // Handle error response
+        const errorData = await response.json();
+        console.error("Error fetching data:", errorData.error);
+        return;
+      }
+
+      const data = await response.json();
+      // Safely access the description content using optional chaining
+      const description = data?.generated_text?.content;
+      console.log("Description:", description);
+
       if (description) {
         setValue("eventDetails", description);
       } else {
