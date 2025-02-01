@@ -104,6 +104,55 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
     }
   };
 
+  const handleGenerateBannerImage = async () => {
+    setLoading(true);
+    const name = getValues("name"); // Adjust if your field name is different
+
+    const category = getValues("eventCategory");
+
+    try {
+      const queryParams = new URLSearchParams({
+        name,
+
+        category,
+      }).toString();
+      const response = await fetch(`/api/generate-image?${queryParams}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        // Handle error response
+        const errorData = await response.json();
+        console.error("Error fetching data:", errorData.error);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("Full API response:", JSON.stringify(data, null, 2));
+
+      // Access the correct image URL
+      const imageUrl = data?.generated_image;
+      console.log("Generated Image URL:", imageUrl);
+
+      if (imageUrl) {
+        // Update the preview images state by appending the new URL
+        setPreviewImages((prev) => [...prev, imageUrl]);
+
+        // Optionally, update your form state with the generated banner image URL
+        setValue("eventImage", imageUrl);
+      } else {
+        console.error("No description found in the response");
+      }
+    } catch (error) {
+      console.error("Failed to generate event description:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "socialMedia",
@@ -417,6 +466,16 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
           />
         </div>
+
+        <Button
+          type="button"
+          className="w-fit px-3"
+          onClick={handleGenerateBannerImage}
+          disabled={loading}
+        >
+          {loading ? "Generating..." : "Generate Image With Festive AI"}
+        </Button>
+
         {/* {imagePreview && (
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">
@@ -441,13 +500,14 @@ const CreateEventForm: React.FC<CreateEventFormProps> = ({
             </label>
             <Image
               src={previewURL}
-              width={50}
-              height={50}
+              width={100}
+              height={100}
               alt="Preview"
               className="mt-1 block w-full max-w-xs border border-gray-300 rounded-md"
             />
           </div>
         ))}
+
         {/* <input
             type="file"
             id="event-banner"
