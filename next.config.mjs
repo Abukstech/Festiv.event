@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["firebasestorage.googleapis.com", "img.clerk.com"],
+    domains: [
+      "firebasestorage.googleapis.com",
+      "img.clerk.com",
+      "oaidalleapiprodscus.blob.core.windows.net",
+    ],
   },
 
   // Indicate that these packages should not be bundled by webpack

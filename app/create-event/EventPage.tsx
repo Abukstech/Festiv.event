@@ -122,7 +122,7 @@ const EventPage = () => {
   //   { label: "Feedback", component: <FeedbackForm /> },]
   return (
     <FormProvider {...methods}>
-      <main className=" gap-8 my-5 min-h-screen  border-black  ">
+      <main className=" gap-8 my-5 min-h-screen max-w-5xl border-black  ">
         <div className="flex justify-center gap-4 mb-5">
           {steps.map((step, index) => (
             <button
